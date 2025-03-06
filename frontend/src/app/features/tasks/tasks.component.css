@@ -1,0 +1,25 @@
+:host {
+  width: 100%;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+  background: #000;
+  border-color: #000;
+  height: 200px;
+}
+
+.cdk-drop-list {
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* .cdk-drop-list-dragging {
+  background-color: rgba(80, 48, 229, 0.1);
+  border: 2px dashed #5030E5;
+  border-radius: 12px;
+} */
+
+.cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-placeholder) {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}

@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Are you sure?</h2>
+<mat-dialog-content>Do you really want to logout?</mat-dialog-content>
+<mat-dialog-actions class="flex gap-4">
+  <!-- Cancel button -->
+  <button
+    class="px-4 py-2 bg-gray-200 text-sm text-gray-700 rounded-md font-medium hover:bg-gray-300 focus:ring-2 focus:ring-fun-blue-500 focus:outline-none transition duration-200 hover:cursor-pointer"
+    (click)="close(false)"
+  >
+    Cancel
+  </button>
+
+  <!-- Submit button -->
+  <button
+    cdkFocusInitial
+    class="px-4 py-2 bg-fun-blue-700 text-sm text-white font-semibold rounded-lg hover:contrast-125 focus:outline-none transition duration-300 hover:cursor-pointer"
+    (click)="close(true)"
+  >
+    Yes
+  </button>
+</mat-dialog-actions>

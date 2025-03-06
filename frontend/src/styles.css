@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "tailwindcss";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", serif;
+}
+
+@theme {
+  --color-topaz-50: #f5f6f8;
+  --color-topaz-100: #eeeef1;
+  --color-topaz-200: #dfdfe6;
+  --color-topaz-300: #cbcbd6;
+  --color-topaz-400: #b6b5c4;
+  --color-topaz-500: #a3a1b3;
+  --color-topaz-600: #908c9f;
+  --color-topaz-700: #787486;
+  --color-topaz-800: #656271;
+  --color-topaz-900: #55525d;
+  --color-topaz-950: #313036;
+
+  --color-fun-blue-50: #f3f6fc;
+  --color-fun-blue-100: #e5ecf9;
+  --color-fun-blue-200: #c6d8f1;
+  --color-fun-blue-300: #94b8e5;
+  --color-fun-blue-400: #5a93d6;
+  --color-fun-blue-500: #3575c2;
+  --color-fun-blue-600: #265da8;
+  --color-fun-blue-700: #1f4985;
+  --color-fun-blue-800: #1d3f6f;
+  --color-fun-blue-900: #1d365d;
+  --color-fun-blue-950: #14233d;
+}

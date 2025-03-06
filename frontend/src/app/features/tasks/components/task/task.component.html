@@ -1,0 +1,35 @@
+<div
+  class="bg-white rounded-md shadow-md p-6 border border-gray-200 relative"
+  cdkDrag
+>
+  <div class="flex items-center justify-between mb-2">
+    <app-priority-badge [priority]="task().priority" />
+    <button
+      class="font-semibold flex items-center justify-center z-50 rounded-md p-1 hover:bg-[#5030E550] hover:cursor-pointer transition-colors absolute right-3 top-3"
+      [matMenuTriggerFor]="menu"
+    >
+      <app-more-icon />
+    </button>
+  </div>
+  <p class="text-lg font-semibold text-gray-900">{{ task().title }}</p>
+  <p class="text-sm text-gray-600 mt-1">{{ task().description }}</p>
+</div>
+
+<mat-menu #menu="matMenu" class="bg-white shadow-md rounded-md">
+  <button
+    mat-menu-item
+    (click)="deleteTask()"
+    class="flex justify-center items-center gap-2 px-3 py-1 text-red-600 hover:bg-red-100"
+  >
+    <app-delete-icon />
+    <span>Delete</span>
+  </button>
+  <button
+    mat-menu-item
+    (click)="updateTask()"
+    class="flex justify-center items-center gap-2 px-3 py-1 text-red-600 hover:bg-red-100"
+  >
+    <app-update-icon />
+    <span>Update</span>
+  </button>
+</mat-menu>

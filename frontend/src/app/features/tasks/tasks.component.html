@@ -1,0 +1,121 @@
+<div class="px-12 py-8 flex-col w-full">
+  <h2 class="text-4xl font-semibold">{{ project()?.name }}</h2>
+  @if (loading) {
+    <div class="flex items-center justify-center w-full pt-32">
+      <app-spinner />
+    </div>
+  } @else {
+    <div class="grid grid-cols-3 gap-6 pt-10">
+      <div class="bg-topaz-100 p-5 rounded-md flex flex-col gap-6">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex gap-2 items-center">
+            <div class="rounded-full bg-fun-blue-700 size-2"></div>
+            <h2 class="text-lg font-semibold">To do</h2>
+            <div
+              class="rounded-full bg-[#DBDBDB] size-5 flex items-center justify-center text-[12px]"
+            >
+              {{ tasks.todo.length }}
+            </div>
+          </div>
+          <app-add-square-icon
+            (click)="openDialog()"
+            class="hover:cursor-pointer text-fun-blue-500 hover:text-fun-blue-700 transition-colors duration-200"
+          />
+        </div>
+
+        <hr class="border-2 border-fun-blue-700 rounded-sm" />
+
+        <div
+          cdkDropList
+          #todoList="cdkDropList"
+          [cdkDropListData]="tasks.todo"
+          [cdkDropListConnectedTo]="[doneList, inProcessList]"
+          class="grid gap-3"
+          data-name="todo"
+          (cdkDropListDropped)="drop($event)"
+        >
+          @for (item of tasks.todo; track item) {
+            <app-task [task]="item" />
+          }
+          @if (tasks.todo.length === 0) {
+            <div
+              class="bg-white rounded-md h-32 flex justify-center items-center text-sm text-gray-500 border border-dashed border-fun-blue-700 opacity-35"
+            >
+              Drag & Drop Here!
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="bg-topaz-100 p-5 rounded-md flex flex-col gap-6">
+        <div class="flex items-center gap-2">
+          <div class="rounded-full bg-[#FFA500] size-2"></div>
+          <h2 class="text-lg font-semibold">In Process</h2>
+          <div
+            class="rounded-full bg-[#DBDBDB] size-5 flex items-center justify-center text-[12px]"
+          >
+            {{ tasks.process.length }}
+          </div>
+        </div>
+
+        <hr class="border-2 border-[#FFA500] rounded-sm" />
+
+        <div
+          cdkDropList
+          #inProcessList="cdkDropList"
+          [cdkDropListData]="tasks.process"
+          [cdkDropListConnectedTo]="[doneList, todoList]"
+          class="grid gap-3"
+          data-name="process"
+          (cdkDropListDropped)="drop($event)"
+        >
+          @for (item of tasks.process; track item) {
+            <app-task [task]="item" />
+          }
+          @if (tasks.process.length === 0) {
+            <div
+              class="bg-white rounded-md h-32 flex justify-center items-center text-sm text-gray-500 border border-dashed border-fun-blue-700 opacity-35"
+            >
+              Drag & Drop Here!
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="bg-topaz-100 p-5 rounded-md flex flex-col gap-6">
+        <div class="flex items-center gap-2">
+          <div class="rounded-full bg-[#8BC48A] size-2"></div>
+          <h2 class="text-lg font-semibold">Done</h2>
+          <div
+            class="rounded-full bg-[#DBDBDB] size-5 flex items-center justify-center text-[12px]"
+          >
+            {{ tasks.done.length }}
+          </div>
+        </div>
+
+        <hr class="border-2 border-[#8BC48A] rounded-sm" />
+
+        <div
+          cdkDropList
+          #doneList="cdkDropList"
+          [cdkDropListData]="tasks.done"
+          [cdkDropListConnectedTo]="[todoList, inProcessList]"
+          class="grid gap-3"
+          data-name="done"
+          (cdkDropListDropped)="drop($event)"
+        >
+          @for (item of tasks.done; track item) {
+            <app-task [task]="item" />
+          }
+          @if (tasks.done.length === 0) {
+            <div
+              class="bg-white rounded-md h-32 flex justify-center items-center text-sm text-gray-500 border border-dashed border-fun-blue-700 opacity-35"
+            >
+              Drag & Drop Here!
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

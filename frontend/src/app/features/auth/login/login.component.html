@@ -1,0 +1,78 @@
+<main class="w-screen h-screen flex">
+  <!-- Sidebar -->
+  <div
+    class="w-1/3 h-full bg-fun-blue-700 flex flex-col items-center justify-center p-10 text-white"
+  ></div>
+
+  <!-- Form -->
+  <div class="flex flex-col items-center justify-center gap-10 w-2/3 px-12">
+    <div class="text-center">
+      <p class="text-5xl font-bold text-gray-900 tracking-wide">
+        Welcome Back!
+      </p>
+      <p class="text-lg text-gray-500 leading-relaxed">
+        Log in to see all your tasks
+      </p>
+    </div>
+
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col gap-6 w-full max-w-md"
+    >
+      <!-- Email field -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1"
+          >Email</label
+        >
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="border border-gray-300 p-3 rounded-lg w-full bg-gray-50 focus:ring-2 focus:ring-fun-blue-700 focus:outline-none shadow-sm"
+        />
+        <app-print-error [control]="loginForm.controls.email" />
+      </div>
+
+      <!-- Password field -->
+      <div>
+        <label
+          for="password"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="border border-gray-300 p-3 rounded-lg w-full bg-gray-50 focus:ring-2 focus:ring-fun-blue-700 focus:outline-none shadow-sm"
+        />
+        <app-print-error [control]="loginForm.controls.password" />
+      </div>
+
+      <!-- Submit button -->
+      <div class="flex flex-col gap-2">
+        @if (error()) {
+          <div class="text-red-400 text-sm text-center">{{ error() }}</div>
+        }
+        <button
+          type="submit"
+          class="font-semibold bg-fun-blue-700 py-3 rounded-lg text-white hover:bg-fun-blue-800 transition duration-200 shadow-md hover:cursor-pointer flex justify-center items-center gap-2"
+          [disabled]="loginForm.invalid"
+        >
+          @if (loading()) {
+            <app-spinner />
+            Loading...
+          } @else {
+            Log in
+          }
+        </button>
+        <a
+          [routerLink]="['/register']"
+          class="hover:underline text-sm text-gray-700"
+          >Don't have an account? Register</a
+        >
+      </div>
+    </form>
+  </div>
+</main>

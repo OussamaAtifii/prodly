@@ -1,0 +1,14 @@
+# Node.js
+node_modules
+
+# Drizzle
+migrations
+
+# Environment variables.
+.env
+
+# Compiled files.
+build
+dist
+
+migrations

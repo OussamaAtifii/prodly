@@ -1,0 +1,70 @@
+<nav
+  class="w-[250px] h-full border-r border-[#DBDBDB] p-4 flex flex-col justify-between fixed left-0 top-0 bg-gray-200/20 z-20"
+>
+  <div class="flex flex-col gap-4">
+    <div class="flex gap-3 items-center mb-2">
+      <img src="/logo.webp" alt="Prodly logo" class="size-10" />
+      <h1 class="text-3xl font-semibold tracking-wide">Prodly</h1>
+    </div>
+    <hr class="border-[#DBDBDB]" />
+    <div>
+      <ul class="flex flex-col gap-2">
+        @for (route of routes; track $index) {
+          <li>
+            <app-nav-item [linkData]="route" />
+          </li>
+        }
+      </ul>
+    </div>
+    <hr class="border-[#DBDBDB]" />
+    <div class="flex justify-between">
+      <div class="flex gap-2 items-center justify-center">
+        <p class="text-[12px] font-semibold text-topaz-700">MY PROJECTS</p>
+        <div
+          class="rounded-full bg-[#DBDBDB] size-4 flex items-center justify-center text-xs"
+        >
+          {{ projects().length }}
+        </div>
+      </div>
+      <app-add-icon
+        class="text-topaz-700 hover:cursor-pointer hover:text-fun-blue-700 transition duration-300"
+        (click)="openDialog()"
+      />
+    </div>
+    @if (loading()) {
+      <div class="flex justify-center items-center w-full">
+        <app-spinner />
+      </div>
+    } @else {
+      @if (!projects().length) {
+        <div
+          class="flex flex-col items-center text-center mt-10 p-4 bg-gray-50 border border-gray-200 rounded-lg"
+        >
+          <p class="text-sm font-medium text-gray-700">No projects yet</p>
+          <p class="text-xs text-gray-500 mt-1">
+            Start by creating a new project
+          </p>
+          <button
+            class="mt-4 px-3 py-2 text-xs font-semibold text-white bg-fun-blue-700 rounded-md hover:contrast-125 transition duration-300 hover:cursor-pointer"
+            (click)="openDialog()"
+          >
+            Create Project
+          </button>
+        </div>
+      } @else {
+        <ul class="flex flex-col gap-2">
+          @for (project of projects(); track $index) {
+            <app-project-item [project]="project" />
+          }
+        </ul>
+      }
+    }
+  </div>
+  <div
+    class="flex gap-3 p-2 hover:bg-fun-blue-200 rounded-md hover:cursor-pointer"
+    (click)="logout()"
+  >
+    <app-logout-icon />
+    Logout
+  </div>
+</nav>

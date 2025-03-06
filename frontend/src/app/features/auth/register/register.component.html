@@ -1,0 +1,94 @@
+<main class="w-screen h-screen flex bg-gray-200/20">
+  <!-- Sidebar -->
+  <div
+    class="w-1/3 h-full bg-fun-blue-700 flex flex-col items-center justify-center p-10 text-white"
+  ></div>
+
+  <!-- Form -->
+  <div class="flex flex-col items-center justify-center gap-8 w-2/3 px-12">
+    <div class="text-center">
+      <p class="text-4xl font-bold text-gray-900 tracking-wide mb-1">
+        Welcome to Prodly!!
+      </p>
+      <p class="text-gray-500 leading-relaxed italic">
+        Register and start managing your projects
+      </p>
+    </div>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col gap-6 w-full max-w-md"
+    >
+      <!-- Username field -->
+      <div>
+        <label
+          for="username"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Username</label
+        >
+        <input
+          type="username"
+          id="username"
+          formControlName="username"
+          class="border border-gray-300 p-3 rounded-lg w-full bg-gray-50 focus:ring-2 focus:ring-fun-blue-700 focus:outline-none shadow-sm"
+        />
+        <app-print-error [control]="registerForm.controls.username" />
+      </div>
+
+      <!-- Email field -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1"
+          >Email</label
+        >
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="border border-gray-300 p-3 rounded-lg w-full bg-gray-50 focus:ring-2 focus:ring-fun-blue-700 focus:outline-none shadow-sm"
+        />
+        <app-print-error [control]="registerForm.controls.email" />
+      </div>
+
+      <!-- Password field -->
+      <div>
+        <label
+          for="password"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="border border-gray-300 p-3 rounded-lg w-full bg-gray-50 focus:ring-2 focus:ring-fun-blue-700 focus:outline-none shadow-sm"
+        />
+        <app-print-error [control]="registerForm.controls.password" />
+      </div>
+
+      <!-- Register button -->
+      <div class="flex flex-col gap-2">
+        @if (error()) {
+          <div class="text-red-400 text-sm text-center">{{ error() }}</div>
+        }
+        <button
+          type="submit"
+          [disabled]="registerForm.invalid"
+          class="font-semibold bg-fun-blue-700 py-3 rounded-lg text-white hover:bg-fun-blue-800 transition duration-200 shadow-md hover:cursor-pointer flex justify-center items-center gap-2"
+        >
+          @if (loading()) {
+            <app-spinner />
+            Loading...
+          } @else {
+            Register
+          }
+        </button>
+        <a
+          [routerLink]="['/login']"
+          class="hover:underline text-sm text-gray-700"
+          >Already have an account? Log in</a
+        >
+      </div>
+    </form>
+  </div>
+</main>

@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>
+  Update <span class="font-medium">{{ data.project.name }}</span>
+</h2>
+<mat-dialog-content>
+  <!-- Form -->
+  <form
+    [formGroup]="createProjectForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col gap-6 w-96 py-6"
+  >
+    <!-- Name field -->
+    <div>
+      <label for="name" class="block text-sm font-medium text-gray-700 mb-1"
+        >Project Name</label
+      >
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="border border-gray-300 p-2 rounded-md w-full focus:ring-2 focus:ring-fun-blue-700 focus:outline-none"
+      />
+    </div>
+
+    <!-- Color field -->
+    <div class="relative">
+      <label for="color" class="block text-sm font-medium text-gray-700 mb-1">
+        Project Color
+      </label>
+
+      <input
+        type="color"
+        id="color"
+        formControlName="color"
+        aria-label="Select project color"
+        class="absolute inset-0 w-full h-full cursor-pointer opacity-0"
+      />
+
+      <div
+        class="w-full h-10 rounded-md border border-gray-300"
+        [style.backgroundColor]="createProjectForm.value.color"
+      ></div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="flex gap-4">
+  <!-- Cancel button -->
+  <button
+    mat-dialog-close
+    class="px-4 py-2 bg-gray-200 text-sm text-gray-700 rounded-md font-medium hover:bg-gray-300 focus:ring-2 focus:ring-fun-blue-500 focus:outline-none transition duration-200 hover:cursor-pointer"
+  >
+    Cancel
+  </button>
+
+  <!-- Submit button -->
+  <button
+    (click)="onSubmit()"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    class="px-4 py-2 bg-fun-blue-700 text-sm text-white font-semibold rounded-lg hover:contrast-125 focus:outline-none transition duration-300 hover:cursor-pointer"
+  >
+    Update
+  </button>
+</mat-dialog-actions>

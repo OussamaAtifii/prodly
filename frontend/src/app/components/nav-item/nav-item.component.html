@@ -1,0 +1,8 @@
+<a
+  [routerLink]="linkData().href"
+  [ngClass]="{ 'bg-fun-blue-200': isSelected() }"
+  class="flex gap-3 p-2 hover:bg-fun-blue-200 rounded-md hover:backdrop-blur-md"
+>
+  <ng-container [ngComponentOutlet]="linkData().icon"></ng-container>
+  <span>{{ linkData().name }}</span>
+</a>
