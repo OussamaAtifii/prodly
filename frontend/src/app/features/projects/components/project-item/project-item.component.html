@@ -21,19 +21,19 @@
   <mat-menu #menu="matMenu" class="bg-white shadow-md rounded-md">
     <button
       mat-menu-item
-      (click)="deleteProject()"
-      class="flex justify-center items-center gap-2 px-3 py-1 text-red-600 hover:bg-red-100"
-    >
-      <app-delete-icon />
-      <span>Delete</span>
-    </button>
-    <button
-      mat-menu-item
       (click)="updateProject()"
       class="flex justify-center items-center gap-2 px-3 py-1 text-red-600 hover:bg-red-100"
     >
       <app-update-icon />
       <span>Update</span>
+    </button>
+    <button
+      mat-menu-item
+      (click)="deleteProject()"
+      class="flex justify-center items-center gap-2 px-3 py-1 text-red-600 hover:bg-red-100"
+    >
+      <app-delete-icon />
+      <span>Delete</span>
     </button>
   </mat-menu>
 </a>
