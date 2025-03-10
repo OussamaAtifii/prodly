@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from 'express';
-import { UserData } from '../types/types';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET_KEY } from '../config/config';
+import { UserData } from '@customTypes/user';
 
 export default function authenticationMiddleware(
   req: Request,
