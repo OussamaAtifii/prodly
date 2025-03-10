@@ -21,9 +21,9 @@
       "@validations/*": ["./src/validations/*"],
       "@services/*": ["./src/services/*"],
       "@db/*": ["./src/db/*"],
-      "@types/*": ["./src/types/*"]
+      "@customTypes/*": ["./src/types/*"]
     }
   },
-  "include": ["src", "tests"],
+  "include": ["src/**/*.ts", "tests/**/*.test.ts"],
   "exclude": ["node_modules"]
 }
