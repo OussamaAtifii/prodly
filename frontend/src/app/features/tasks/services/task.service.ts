@@ -37,7 +37,7 @@ export class TaskService {
   }
 
   updateTask(id: number, taskData: Partial<Omit<Task, 'id'>>) {
-    return this.httpClient.patch(`${this.API_URL}/${id}`, taskData, {
+    return this.httpClient.patch<Task>(`${this.API_URL}/${id}`, taskData, {
       withCredentials: true,
     });
   }
