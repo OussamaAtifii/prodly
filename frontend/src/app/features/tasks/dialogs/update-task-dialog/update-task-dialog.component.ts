@@ -60,12 +60,12 @@ export class UpdateTaskDialogComponent {
 
   onSubmit() {
     if (this.updateTaskForm.invalid) return;
-
     const formData = this.updateTaskForm.value;
 
-    console.log(formData);
     this.taskService.updateTask(this.data.task.id, formData).subscribe({
-      next: (value) => console.log(value),
+      next: (value) => {
+        this.tasksStore.updateTask(value);
+      },
       error: (error) => console.log(error),
     });
   }

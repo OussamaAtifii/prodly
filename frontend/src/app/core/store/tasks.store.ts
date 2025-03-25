@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { TaskService } from '@features/tasks/services/task.service';
-import { Task, Tasks, TaskUpdateStatus } from '@models/task.model';
+import { Task, Tasks } from '@models/task.model';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
@@ -66,6 +66,17 @@ export const TasksStore = signalStore(
             ...state.tasks,
             [task.status]: state.tasks[task.status].filter(
               (t) => t.id !== task.id,
+            ),
+          },
+        }));
+      },
+
+      updateTask(updatedTask: Task) {
+        patchState(store, (state) => ({
+          tasks: {
+            ...state.tasks,
+            [updatedTask.status]: state.tasks[updatedTask.status].map((task) =>
+              task.id === updatedTask.id ? { ...task, ...updatedTask } : task,
             ),
           },
         }));
