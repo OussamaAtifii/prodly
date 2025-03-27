@@ -21,7 +21,9 @@
       "@validations/*": ["./src/validations/*"],
       "@services/*": ["./src/services/*"],
       "@db/*": ["./src/db/*"],
-      "@customTypes/*": ["./src/types/*"]
+      "@customTypes/*": ["./src/types/*"],
+      "@emails/*": ["./src/emails/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src/**/*.ts", "tests/**/*.test.ts"],
