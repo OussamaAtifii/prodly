@@ -1,15 +1,24 @@
 import { db } from '@db/index';
-import { InsertProject, projectsTable } from '@db/schema';
+import { InsertProject, membersTable, projectsTable } from '@db/schema';
 import { and, eq } from 'drizzle-orm';
 
 class ProjectService {
   static async getAllUserProjects(userId: number) {
-    const userprojects = await db
+    const userProjects = await db
       .select()
       .from(projectsTable)
       .where(eq(projectsTable.userId, userId));
 
-    return userprojects;
+    const projectsMember = await db
+      .select({ project: projectsTable })
+      .from(membersTable)
+      .innerJoin(projectsTable, eq(membersTable.projectId, projectsTable.id))
+      .where(eq(membersTable.userId, userId));
+
+    const memberProjects = projectsMember.map((projects) => projects.project);
+    const allProjects = userProjects.concat(memberProjects);
+
+    return allProjects;
   }
 
   static async create(data: InsertProject) {
