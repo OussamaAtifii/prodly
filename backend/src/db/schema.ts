@@ -91,3 +91,17 @@ export const tasksRelations = relations(tasksTable, ({ one }) => ({
     references: [projectsTable.id],
   }),
 }));
+
+export const membersTable = sqliteTable('members', {
+  id: integer('id').primaryKey(),
+  projectId: integer('project_id')
+    .references(() => projectsTable.id, { onDelete: 'cascade' })
+    .notNull(),
+  userId: integer('user_id')
+    .references(() => usersTable.id, { onDelete: 'cascade' })
+    .notNull(),
+  role: text('role').notNull().default('member'),
+  joinedAt: text('joined_at')
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
