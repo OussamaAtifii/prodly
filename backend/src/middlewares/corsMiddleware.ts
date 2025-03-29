@@ -1,6 +1,7 @@
 import cors from 'cors';
+import { CLIENT_URL } from 'src/config/config';
 
 export const corsMiddleware = cors({
-  origin: process.env.CLIENT_URL,
+  origin: CLIENT_URL,
   credentials: true,
 });
