@@ -6,7 +6,7 @@ import {
   projectUpdateSchema,
 } from '@validations/ProjectSchema';
 import TaskService from '@services/taskService';
-import { Summary } from '@types/summary';
+import { Summary } from '@customTypes/summary';
 
 class ProjectController {
   static async getAllUserProjects(req: Request, res: Response) {
