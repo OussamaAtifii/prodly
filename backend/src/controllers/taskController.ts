@@ -3,6 +3,7 @@ import { z } from 'zod';
 import TaskService from '@services/taskService';
 import ProjectService from '@services/projectService';
 import { baseTaskSchema, taskUpdateSchema } from '@validations/TaskSchema';
+import MemberService from '@services/memberService';
 
 class TaskController {
   static async getProjectTasks(req: Request, res: Response) {
@@ -71,7 +72,7 @@ class TaskController {
 
   static async create(req: Request, res: Response) {
     const data = req.body;
-    const userId = req.session.user?.id;
+    const userId = Number(req.session.user?.id);
 
     try {
       const validateTask = baseTaskSchema.parse(data);
@@ -83,7 +84,9 @@ class TaskController {
         return res.status(404).json({ message: 'Project not found' });
       }
 
-      if (existingProject.userId !== Number(userId)) {
+      const isMember = MemberService.getMember(userId, existingProject.id);
+
+      if (existingProject.userId !== userId && !isMember) {
         return res.status(403).json({
           message: 'You do not have permission to perform this action',
         });
