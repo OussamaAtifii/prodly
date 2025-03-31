@@ -90,7 +90,7 @@ class UserController {
         { expiresIn: '1h' }
       );
 
-      const { username, email, role, avatar } = user;
+      const { id, username, email, role, avatar } = user;
       return res
         .status(201)
         .cookie('token', token, {
@@ -99,7 +99,7 @@ class UserController {
           sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
           maxAge: 3600000,
         })
-        .json({ username, email, role, avatar });
+        .json({ id, username, email, role, avatar });
     } catch (error) {
       console.error(error);
 
@@ -136,7 +136,7 @@ class UserController {
         }
       );
 
-      const { username, email, role, avatar } = userExist;
+      const { id, username, email, role, avatar } = userExist;
       return res
         .status(200)
         .cookie('token', token, {
@@ -145,7 +145,7 @@ class UserController {
           sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
           maxAge: 3600000,
         })
-        .json({ username, email, role, avatar });
+        .json({ id, username, email, role, avatar });
     } catch (error) {
       console.error(error);
       if (error instanceof z.ZodError) {
