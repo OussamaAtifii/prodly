@@ -5,6 +5,7 @@ import { HomeComponent } from '@features/home/home.component';
 import { authGuard } from '@features/auth/guards/auth.guard';
 import { LoginComponent } from '@features/auth/login/login.component';
 import { RegisterComponent } from '@features/auth/register/register.component';
+import { InvitationComponent } from '@features/invitation/invitation.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,10 @@ export const routes: Routes = [
       {
         path: 'projects/:projectId/tasks',
         component: TasksComponent,
+      },
+      {
+        path: 'accept-invitation',
+        component: InvitationComponent,
       },
     ],
   },

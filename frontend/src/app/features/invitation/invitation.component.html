@@ -1,0 +1,27 @@
+<section class="px-12 py-8">
+  @if (loading()) {
+    <app-spinner />
+  } @else {
+    @if (error()) {
+      <div
+        class="flex justify-center items-center w-fit mx-auto bg-red-100 border-2 border-red-400 text-red-700 px-6 py-4 rounded-md"
+      >
+        <p class="text-lg font-medium text-center">{{ error() }}</p>
+      </div>
+      <p class="text-sm mt-2 text-center italic">
+        Redirecting you to home page...
+      </p>
+    } @else {
+      <div
+        class="flex justify-center items-center w-fit mx-auto bg-green-100 border-2 border-green-400 text-green-700 px-6 py-4 rounded-md"
+      >
+        <p class="text-lg font-medium text-center">
+          You have been added to the project
+        </p>
+      </div>
+      <p class="text-sm mt-2 text-center italic">
+        Redirecting you to your new project..
+      </p>
+    }
+  }
+</section>
