@@ -104,11 +104,16 @@ class MemberController {
           .json({ message: 'Error while accepting the invitation.' });
       }
 
+      const isMember = await MemberService.getMember(user.id, project.id);
+      if (isMember) {
+        return res
+          .status(400)
+          .json({ message: 'You are already a member of this project' });
+      }
+
       // Add user as a new member of the project
       await MemberService.addMember(user.id, project.id);
-      return res
-        .status(200)
-        .json({ message: 'You have successfully accepted the invitation' });
+      return res.status(200).json({ projectId: project.id });
     } catch (error) {
       console.log(error);
       res.status(500).send('Error while sending the invitation');
