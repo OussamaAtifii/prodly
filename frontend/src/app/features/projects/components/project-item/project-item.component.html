@@ -1,22 +1,47 @@
 <a
   [routerLink]="['/projects', project().id, 'tasks']"
-  class="flex justify-between p-2 rounded-md hover:bg-fun-blue-200 cursor-pointer transition-colors"
+  class="relative flex justify-between p-2 rounded-md hover:bg-fun-blue-200 cursor-pointer transition-colors"
   [ngClass]="{ 'bg-fun-blue-200': isSelected() }"
   (click)="setProject()"
 >
-  <div class="flex gap-2 items-center">
+  <div class="flex gap-2 items-center justify-center">
     <div
       class="rounded-full w-2 h-2"
       [style]="{ 'background-color': project().color }"
     ></div>
     <p class="line-clamp-1 text-gray-800">{{ project().name }}</p>
+    @if (userOwnProject()) {
+    } @else {
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        class="text-gray-700"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        matTooltip="You are a member of this project"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+      </svg>
+    }
   </div>
-  <button
-    class="font-semibold flex items-center justify-center z-50 rounded-md p-1 hover:bg-fun-blue-300 hover:cursor-pointer transition-colors"
-    [matMenuTriggerFor]="menu"
-  >
-    <app-more-icon />
-  </button>
+
+  @if (userOwnProject()) {
+    <button
+      class="font-semibold flex items-center justify-center z-50 rounded-md p-1 hover:bg-fun-blue-300 hover:cursor-pointer transition-colors"
+      [matMenuTriggerFor]="menu"
+    >
+      <app-more-icon />
+    </button>
+  }
 
   <mat-menu #menu="matMenu" class="bg-white shadow-md rounded-md">
     <button

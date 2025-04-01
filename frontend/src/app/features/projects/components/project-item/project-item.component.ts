@@ -18,6 +18,8 @@ import { DeleteIconComponent } from '@icons/delete-icon/delete-icon.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateProjectDialogComponent } from '@features/projects/dialogs/update-project-dialog/update-project-dialog.component';
 import { UpdateIconComponent } from '@icons/update-icon/update-icon.component';
+import { AuthService } from '@features/auth/services/auth.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-project-item',
@@ -30,6 +32,7 @@ import { UpdateIconComponent } from '@icons/update-icon/update-icon.component';
     NgClass,
     DeleteIconComponent,
     UpdateIconComponent,
+    MatTooltipModule,
   ],
   templateUrl: './project-item.component.html',
   styleUrl: './project-item.component.css',
@@ -38,6 +41,8 @@ import { UpdateIconComponent } from '@icons/update-icon/update-icon.component';
 })
 export class ProjectItemComponent {
   private projectService = inject(ProjectService);
+  private authService = inject(AuthService);
+
   readonly dialog = inject(MatDialog);
 
   project = input.required<Project>();
@@ -64,8 +69,11 @@ export class ProjectItemComponent {
   }
 
   isSelected = computed(() => {
-    console.log('SE HACE EL CAMBIO');
     console.log(this.projectService.project()?.id);
     return this.projectService.project()?.id === this.project().id;
+  });
+
+  userOwnProject = computed(() => {
+    return this.project().userId === this.authService.user()?.id;
   });
 }
