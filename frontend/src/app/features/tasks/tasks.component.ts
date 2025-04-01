@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
+  computed,
   effect,
   inject,
   input,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   CdkDragDrop,
@@ -23,6 +24,12 @@ import { SpinnerComponent } from '@shared/components/spinner/spinner.component';
 import { TaskComponent } from './components/task/task.component';
 import { TasksStore } from '@core/store/tasks.store';
 import { TaskService } from './services/task.service';
+import { InviteMemberDialogComponent } from '@features/invitation/dialogs/invite-member-dialog/invite-member-dialog.component';
+import { InvitationService } from '@features/invitation/services/invitation.service';
+import { Member } from '@features/invitation/models/member';
+import { getAvatarText } from '@core/utils/utils';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthService } from '@features/auth/services/auth.service';
 
 @Component({
   selector: 'app-tasks',
@@ -31,6 +38,7 @@ import { TaskService } from './services/task.service';
     TaskComponent,
     AddSquareIconComponent,
     SpinnerComponent,
+    MatTooltipModule,
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
@@ -40,11 +48,14 @@ export class TasksComponent implements OnInit, OnDestroy {
   private projectService = inject(ProjectService);
   private tasksStore = inject(TasksStore);
   private taskService = inject(TaskService);
+  private invitationService = inject(InvitationService);
+  private authService = inject(AuthService);
 
   private readonly dialog = inject(MatDialog);
 
   projectId = input.required<string>();
   project = this.projectService.project;
+  members = signal<Member[]>([]);
 
   constructor() {
     effect(() => this.setProject());
@@ -64,9 +75,33 @@ export class TasksComponent implements OnInit, OnDestroy {
     return this.tasksStore.loading();
   }
 
+  userOwnProject = computed(() => {
+    console.log(this.projectService.project()?.id);
+    console.log(this.authService.user()?.id);
+    return (
+      this.projectService.project()?.userId === this.authService.user()?.id
+    );
+  });
+
   // Load tasks according to selected project id
   private loadTasks() {
     this.tasksStore.loadByProjectId(this.projectId());
+  }
+
+  private getMembers() {
+    this.invitationService
+      .getProjectMembers(Number(this.projectId()))
+      .subscribe({
+        next: (members) => {
+          console.log(members);
+          this.members.set(members);
+        },
+        error: (error) => console.log(error),
+      });
+  }
+
+  getAvatarText(email: string) {
+    return getAvatarText(email);
   }
 
   // Set the selected project and load its associated tasks
@@ -78,6 +113,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     );
 
     this.loadTasks();
+    this.getMembers();
   }
 
   // Remove selected project when tasks page is destroyed
@@ -124,5 +160,9 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   openDialog() {
     this.dialog.open(CreateTaskDialogComponent);
+  }
+
+  openInviteMemberDialog() {
+    this.dialog.open(InviteMemberDialogComponent);
   }
 }

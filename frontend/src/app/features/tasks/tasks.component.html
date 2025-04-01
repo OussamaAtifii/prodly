@@ -1,5 +1,54 @@
 <div class="px-12 py-8 flex-col w-full">
-  <h2 class="text-4xl font-semibold">{{ project()?.name }}</h2>
+  <div class="flex gap-4 items-center justify-between">
+    <h2 class="text-4xl font-semibold">{{ project()?.name }}</h2>
+    <div class="flex justify-center items-center gap-6">
+      <div
+        class="flex items-center gap-3 bg-gray-200 px-2 py-1 rounded-md shadow-sm min-h-12 min-w-24"
+      >
+        @if (loading) {
+          <app-spinner class="mx-auto" />
+        } @else {
+          @if (userOwnProject()) {
+            <div
+              (click)="openInviteMemberDialog()"
+              class="flex justify-center items-center gap-1 group"
+            >
+              <app-add-square-icon
+                class="hover:cursor-pointer text-fun-blue-500 group-hover:text-fun-blue-700 transition-colors duration-200"
+              />
+              <p
+                class="text-sm font-semibold text-fun-blue-500 group-hover:underline group-hover:cursor-pointer"
+              >
+                @if (!members().length) {
+                  Invite your first member
+                } @else {
+                  Invite
+                }
+              </p>
+            </div>
+          } @else {
+            <p
+              class="text-sm font-semibold text-gray-700 flex items-center gap-1"
+            >
+              Members:
+            </p>
+          }
+          @if (members().length > 0) {
+            <div class="flex -space-x-2">
+              @for (member of members(); track member.id) {
+                <div
+                  class="flex justify-center items-center bg-topaz-400 uppercase p-2 rounded-full border-2 w-10 h-10 border-white shadow-md transition-transform transform hover:scale-110 hover:cursor-pointer"
+                  [matTooltip]="member.email"
+                >
+                  {{ getAvatarText(member.email) }}
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
   @if (loading) {
     <div class="flex items-center justify-center w-full pt-32">
       <app-spinner />
