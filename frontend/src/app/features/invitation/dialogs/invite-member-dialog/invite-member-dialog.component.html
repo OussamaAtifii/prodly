@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Invite New Member</h2>
+<mat-dialog-content>
+  <p>Enter the user's email below to send an invitation.</p>
+  <form
+    [formGroup]="invitationForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col gap-6 w-96 py-6"
+  >
+    <!-- Email field -->
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+        Email
+      </label>
+      <input
+        type="text"
+        id="email"
+        formControlName="email"
+        class="border border-gray-300 p-2 rounded-md w-full focus:ring-2 focus:ring-fun-blue-700 focus:outline-none transition duration-200"
+      />
+      <app-print-error [control]="invitationForm.get('email')" />
+
+      @if (error()) {
+        <div
+          class="flex items-center gap-2 mt-1 text-red-500 text-xs bg-red-100 p-2 rounded-md border border-red-300"
+        >
+          <p>{{ error() }}</p>
+        </div>
+      }
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex gap-4">
+  <!-- Cancel button -->
+  <button
+    mat-dialog-close
+    class="px-4 py-2 bg-gray-200 text-sm text-gray-700 rounded-md font-medium hover:bg-gray-300 focus:ring-2 focus:ring-fun-blue-500 focus:outline-none transition duration-200 hover:cursor-pointer"
+  >
+    Cancel
+  </button>
+
+  <!-- Submit button -->
+  <button
+    (click)="onSubmit()"
+    [disabled]="invitationForm.invalid"
+    cdkFocusInitial
+    class="px-4 py-2 bg-fun-blue-700 text-sm text-white font-semibold rounded-lg hover:contrast-125 focus:outline-none transition duration-300 hover:cursor-pointer disabled:cursor-not-allowed"
+  >
+    Send Invitation
+  </button>
+</mat-dialog-actions>
