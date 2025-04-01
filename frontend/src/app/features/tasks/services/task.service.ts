@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Task, TaskUpdateStatus } from '../../../models/task.model';
-import { ProjectService } from '../../projects/services/project.service';
 import { environment } from 'src/environments/environment';
+import { ProjectService } from '@features/projects/services/project.service';
+import { Task, TaskUpdateStatus } from '@models/task.model';
 
 @Injectable({
   providedIn: 'root',
