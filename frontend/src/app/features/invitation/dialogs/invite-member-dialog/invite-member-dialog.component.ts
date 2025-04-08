@@ -10,6 +10,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Invitation } from '@features/invitation/models/invitation';
 import { InvitationService } from '@features/invitation/services/invitation.service';
 import { ProjectService } from '@features/projects/services/project.service';
+import { HotToastService } from '@ngxpert/hot-toast';
 import { PrintErrorComponent } from '@shared/components/print-error/print-error.component';
 
 @Component({
@@ -26,6 +27,7 @@ import { PrintErrorComponent } from '@shared/components/print-error/print-error.
 export class InviteMemberDialogComponent {
   private projectService = inject(ProjectService);
   private invitationService = inject(InvitationService);
+  private toast = inject(HotToastService);
 
   private readonly dialogRef = inject(
     MatDialogRef<InviteMemberDialogComponent>,
@@ -50,6 +52,7 @@ export class InviteMemberDialogComponent {
     this.invitationService.sendInvitation(data).subscribe({
       next: (value) => {
         this.dialogRef.close();
+        this.toast.success('Invitation sent successfully!');
       },
       error: (error) => {
         this.error.set(error.error.message);
