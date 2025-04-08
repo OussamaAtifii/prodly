@@ -30,6 +30,9 @@ import { Member } from '@features/invitation/models/member';
 import { getAvatarText } from '@core/utils/utils';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '@features/auth/services/auth.service';
+import { ProjectSocketService } from '@features/projects/services/project-socket.service';
+import { TaskSocketService } from './services/task-socket.service';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-tasks',
@@ -50,6 +53,9 @@ export class TasksComponent implements OnInit, OnDestroy {
   private taskService = inject(TaskService);
   private invitationService = inject(InvitationService);
   private authService = inject(AuthService);
+  private projectSocketService = inject(ProjectSocketService);
+  private taskSocketService = inject(TaskSocketService);
+  private toast = inject(HotToastService);
 
   private readonly dialog = inject(MatDialog);
 
@@ -63,6 +69,22 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadTasks();
+    this.projectSocketService.joinProjectRoom(Number(this.projectId()));
+    this.taskSocketService.onTaskCreated((task) => {
+      this.tasksStore.addTask(task);
+      this.toast.info('New task assigned to the project!');
+    });
+
+    this.taskSocketService.onTaskUpdated((task) => {
+      console.log(task);
+      this.tasksStore.updateTask(task);
+    });
+
+    this.taskSocketService.onTaskDeleted((task) => {
+      console.log(task);
+      this.tasksStore.deleteTask(task);
+      this.toast.show('A task was deleted from the project.', { icon: '🗑️' });
+    });
   }
 
   // Get tasks from tasks store
@@ -118,7 +140,9 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   // Remove selected project when tasks page is destroyed
   ngOnDestroy() {
+    console.log('TASKS COMPONENT DESTROYED');
     this.projectService.setProject(null);
+    this.projectSocketService.leaveProjectRoom(Number(this.projectId()));
   }
 
   drop(event: CdkDragDrop<Task[]>) {
