@@ -1,7 +1,6 @@
 import {
   ApplicationConfig,
   provideExperimentalZonelessChangeDetection,
-  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
@@ -13,6 +12,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
+    provideHotToastConfig(),
   ],
 };
