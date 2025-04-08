@@ -20,6 +20,7 @@ import { UpdateProjectDialogComponent } from '@features/projects/dialogs/update-
 import { UpdateIconComponent } from '@icons/update-icon/update-icon.component';
 import { AuthService } from '@features/auth/services/auth.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ProjectSocketService } from '@features/projects/services/project-socket.service';
 
 @Component({
   selector: 'app-project-item',
@@ -42,13 +43,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class ProjectItemComponent {
   private projectService = inject(ProjectService);
   private authService = inject(AuthService);
+  private projectSocketService = inject(ProjectSocketService);
 
   readonly dialog = inject(MatDialog);
 
   project = input.required<Project>();
+  actualProject = this.projectService.project();
 
   setProject() {
+    this.projectSocketService.leaveProjectRoom(Number(this.actualProject?.id));
     this.projectService.setProject(this.project());
+    this.projectSocketService.joinProjectRoom(this.project().id);
   }
 
   deleteProject() {
@@ -69,7 +74,6 @@ export class ProjectItemComponent {
   }
 
   isSelected = computed(() => {
-    console.log(this.projectService.project()?.id);
     return this.projectService.project()?.id === this.project().id;
   });
 
