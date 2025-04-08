@@ -1,29 +1,19 @@
-import express, { Express, Request, Response } from 'express';
-import cookieParser from 'cookie-parser';
-import membersRouter from '@routes/memberRoutes';
-import userRouter from '@routes/userRoutes';
-import projectRouter from '@routes/projectRoutes';
-import taskRouter from '@routes/taskRoutes';
-import { corsMiddleware } from '@middlewares/corsMiddleware';
-import { PORT } from './config/config';
+import http from 'http';
+import { Server } from 'socket.io';
+import app from './app';
+import { CLIENT_URL, PORT } from './config/config';
+import { setupSocket } from './sockets/socket';
 
-const app: Express = express();
+const server = http.createServer(app);
 
-app.disable('x-powered-by');
-
-app.use(express.json());
-app.use(corsMiddleware);
-app.use(cookieParser());
-
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).send('Hello World');
+const io = new Server(server, {
+  cors: {
+    origin: CLIENT_URL,
+  },
 });
 
-app.use('/user', userRouter);
-app.use('/projects', projectRouter);
-app.use('/tasks', taskRouter);
-app.use('/members', membersRouter);
+setupSocket(io);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server is running at http://localhost:${PORT}`);
 });
