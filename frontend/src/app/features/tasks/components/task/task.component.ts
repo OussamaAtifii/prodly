@@ -10,14 +10,14 @@ import { Task } from 'src/app/models/task.model';
 import { MoreIconComponent } from '@icons/more-icon/more-icon.component';
 import { PriorityBadgeComponent } from '../priority-badge/priority-badge.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { DeleteIconComponent } from '../../../../shared/components/icons/delete-icon/delete-icon.component';
 import { TaskService } from '@features/tasks/services/task.service';
 import { TasksStore } from '@core/store/tasks.store';
-import { UpdateIconComponent } from '../../../../shared/components/icons/update-icon/update-icon.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskDialogComponent } from '@features/tasks/dialogs/update-task-dialog/update-task-dialog.component';
 import { ProjectService } from '@features/projects/services/project.service';
 import { TaskSocketService } from '@features/tasks/services/task-socket.service';
+import { DeleteIconComponent } from '@icons/delete-icon/delete-icon.component';
+import { UpdateIconComponent } from '@icons/update-icon/update-icon.component';
 
 @Component({
   selector: 'app-task',

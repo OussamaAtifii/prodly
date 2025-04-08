@@ -11,7 +11,11 @@
       <app-more-icon />
     </button>
   </div>
-  <p class="text-lg font-semibold text-gray-900">{{ task().title }}</p>
+  <p
+    class="text-lg font-semibold text-gray-900 break-words break-all whitespace-normal"
+  >
+    {{ task().title }}
+  </p>
   <p class="text-sm text-gray-600 mt-1">{{ task().description }}</p>
 </div>
 
