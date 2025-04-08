@@ -16,6 +16,8 @@ import { TasksStore } from '@core/store/tasks.store';
 import { UpdateIconComponent } from '../../../../shared/components/icons/update-icon/update-icon.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskDialogComponent } from '@features/tasks/dialogs/update-task-dialog/update-task-dialog.component';
+import { ProjectService } from '@features/projects/services/project.service';
+import { TaskSocketService } from '@features/tasks/services/task-socket.service';
 
 @Component({
   selector: 'app-task',
@@ -34,6 +36,8 @@ import { UpdateTaskDialogComponent } from '@features/tasks/dialogs/update-task-d
 export class TaskComponent {
   private taskService = inject(TaskService);
   private tasksStore = inject(TasksStore);
+  private taskSocketService = inject(TaskSocketService);
+  private projectService = inject(ProjectService);
   private readonly dialog = inject(MatDialog);
 
   task = input.required<Task>();
@@ -42,6 +46,10 @@ export class TaskComponent {
     this.taskService.deleteTask(this.task().id).subscribe({
       next: (value) => {
         this.tasksStore.deleteTask(this.task());
+        this.taskSocketService.emitTaskDeleted({
+          projectId: Number(this.projectService.project()?.id),
+          task: this.task(),
+        });
       },
       error: (error) => console.log(error),
     });

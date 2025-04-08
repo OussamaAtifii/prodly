@@ -9,9 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TasksStore } from '@core/store/tasks.store';
 import { isUniqueValidator } from '@core/utils/validators/is-task-unique.validator';
+import { ProjectService } from '@features/projects/services/project.service';
 import { Priorities } from '@features/tasks/models/priorities.model';
+import { TaskSocketService } from '@features/tasks/services/task-socket.service';
 import { TaskService } from '@features/tasks/services/task.service';
 import { Task } from '@models/task.model';
+import { HotToastService } from '@ngxpert/hot-toast';
 import { PrintErrorComponent } from '@shared/components/print-error/print-error.component';
 
 @Component({
@@ -29,6 +32,9 @@ import { PrintErrorComponent } from '@shared/components/print-error/print-error.
 export class CreateTaskDialogComponent {
   private taskService = inject(TaskService);
   private tasksStore = inject(TasksStore);
+  private taskSocketService = inject(TaskSocketService);
+  private projectService = inject(ProjectService);
+  constructor(private toast: HotToastService) {}
 
   priorities: Priorities[] = [
     { value: 'low', viewValue: 'Low' },
@@ -64,6 +70,11 @@ export class CreateTaskDialogComponent {
       next: (response) => {
         console.log(response);
         this.tasksStore.addTask({ ...taskData, id: response.id });
+        this.taskSocketService.emitTaskCreated({
+          projectId: Number(this.projectService.project()?.id),
+          task: response,
+        });
+        this.toast.success('Task created successfully!');
       },
       error: (error) => {
         console.log(error.error.message || 'Error while creating task');

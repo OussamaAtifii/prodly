@@ -13,6 +13,8 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TasksStore } from '@core/store/tasks.store';
+import { ProjectService } from '@features/projects/services/project.service';
+import { TaskSocketService } from '@features/tasks/services/task-socket.service';
 import { TaskService } from '@features/tasks/services/task.service';
 import { Task } from '@models/task.model';
 import { PrintErrorComponent } from '@shared/components/print-error/print-error.component';
@@ -32,6 +34,8 @@ import { PrintErrorComponent } from '@shared/components/print-error/print-error.
 export class UpdateTaskDialogComponent {
   private taskService = inject(TaskService);
   private tasksStore = inject(TasksStore);
+  private taskSocketService = inject(TaskSocketService);
+  private projectService = inject(ProjectService);
 
   data: { task: Task };
   updateTaskForm: FormGroup;
@@ -64,7 +68,12 @@ export class UpdateTaskDialogComponent {
 
     this.taskService.updateTask(this.data.task.id, formData).subscribe({
       next: (value) => {
+        console.log(value);
         this.tasksStore.updateTask(value);
+        this.taskSocketService.emitTaskUpdated({
+          projectId: Number(this.projectService.project()?.id),
+          task: value,
+        });
       },
       error: (error) => console.log(error),
     });
