@@ -17,5 +17,6 @@ taskRouter.patch(
   TaskController.changeTaskStatus
 );
 taskRouter.delete('/:id', taskMiddleware, TaskController.delete);
+taskRouter.get('/stats', TaskController.getStats);
 
 export default taskRouter;

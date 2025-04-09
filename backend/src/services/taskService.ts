@@ -1,4 +1,4 @@
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, or } from 'drizzle-orm';
 import { InsertTask, SelectTask, tasksTable } from '@db/schema';
 import { db } from '@db/index';
 
@@ -114,6 +114,36 @@ class TaskService {
 
   static async delete(taskId: number) {
     await db.delete(tasksTable).where(eq(tasksTable.id, taskId));
+  }
+
+  static async getStats(userId: number) {
+    const tableData = await db
+      .select()
+      .from(tasksTable)
+      .where(
+        and(
+          or(eq(tasksTable.status, 'todo'), eq(tasksTable.status, 'done')),
+          eq(tasksTable.userId, userId)
+        )
+      );
+
+    let createdCount: number[] = Array(12).fill(0);
+    let completedCount: number[] = Array(12).fill(0);
+
+    tableData.forEach((task) => {
+      const date = new Date(task.createdAt);
+      const month = date.getMonth();
+
+      if (task.status === 'todo') {
+        createdCount[month]++;
+      }
+
+      if (task.status === 'done') {
+        completedCount[month]++;
+      }
+    });
+
+    return { createdCount, completedCount };
   }
 }
 
