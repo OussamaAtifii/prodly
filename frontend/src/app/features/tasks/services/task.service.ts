@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ProjectService } from '@features/projects/services/project.service';
 import { Task, TaskUpdateStatus } from '@models/task.model';
+import { TaskStats } from '../models/stats.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,5 +55,11 @@ export class TaskService {
       { status },
       { withCredentials: true },
     );
+  }
+
+  getStats() {
+    return this.httpClient.get<TaskStats>(`${this.API_URL}/stats`, {
+      withCredentials: true,
+    });
   }
 }
