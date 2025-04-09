@@ -15,6 +15,7 @@ export const baseTaskSchema = z.object({
   }),
   completed: z.boolean().optional(),
   projectId: z.number({ required_error: 'Project ID is required' }),
+  userId: z.number({ required_error: 'User ID is required' }),
 });
 
 export const taskUpdateSchema = baseTaskSchema

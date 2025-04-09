@@ -75,7 +75,7 @@ class TaskController {
     const userId = Number(req.session.user?.id);
 
     try {
-      const validateTask = baseTaskSchema.parse(data);
+      const validateTask = baseTaskSchema.parse({ ...data, userId });
       const existingProject = await ProjectService.getById(
         validateTask.projectId
       );
@@ -152,6 +152,18 @@ class TaskController {
       }
 
       return res.status(500).json({ message: 'Error deleting task' });
+    }
+  }
+
+  static async getStats(req: Request, res: Response) {
+    const userId = Number(req.session.user?.id);
+
+    try {
+      const data = await TaskService.getStats(userId);
+      return res.json(data);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Error getting table data' });
     }
   }
 }
