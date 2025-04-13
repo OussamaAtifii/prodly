@@ -1,17 +1,11 @@
 export interface Summary {
-  completed: {
-    previous: 0;
-    current: number;
-    percentage: number;
-  };
-  inProcess: {
-    previous: 0;
-    current: number;
-    percentage: number;
-  };
-  created: {
-    previous: 0;
-    current: number;
-    percentage: number;
-  };
+  completed: SummaryItem;
+  inProcess: SummaryItem;
+  created: SummaryItem;
+}
+
+export interface SummaryItem {
+  previous: number;
+  current: number;
+  percentage: number;
 }
