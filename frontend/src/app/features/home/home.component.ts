@@ -10,10 +10,11 @@ import { ProjectService } from '@features/projects/services/project.service';
 import { TaskService } from '@features/tasks/services/task.service';
 import { SpinnerComponent } from '@shared/components/spinner/spinner.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 
 @Component({
   selector: 'app-home',
-  imports: [SpinnerComponent, NgApexchartsModule],
+  imports: [SpinnerComponent, NgApexchartsModule, SummaryCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
