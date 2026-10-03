@@ -37,76 +37,138 @@ export class HomeComponent implements OnInit {
           data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         },
       ],
+
       chart: {
         type: 'area',
         height: 350,
         toolbar: {
           show: false,
         },
-        foreColor: '#333',
-        background: '#f3f4f6',
+        zoom: {
+          enabled: false,
+        },
       },
+
+      colors: ['#3982F7', '#22C55E'],
+
       dataLabels: {
         enabled: false,
       },
+
       stroke: {
         curve: 'smooth',
-        width: 2,
+        width: 2.5,
       },
+
       fill: {
         type: 'gradient',
         gradient: {
           shadeIntensity: 1,
-          opacityFrom: 0.4,
-          opacityTo: 0.1,
-          stops: [0, 90, 100],
+          opacityFrom: 0.22,
+          opacityTo: 0,
+          stops: [0, 100],
         },
       },
-      title: {
-        text: 'Anual Task Statistics',
-        align: 'left',
-        style: {
-          fontSize: '16px',
-          fontWeight: '600',
-          color: '#364153',
+
+      markers: {
+        size: 0,
+        hover: {
+          size: 5,
         },
       },
+
+      grid: {
+        borderColor: '#EEF0F3',
+        strokeDashArray: 4,
+
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+
       xaxis: {
         categories: [
-          'Ene',
+          'Jan',
           'Feb',
           'Mar',
-          'Abr',
+          'Apr',
           'May',
           'Jun',
           'Jul',
-          'Ago',
+          'Aug',
           'Sep',
           'Oct',
           'Nov',
-          'Dic',
+          'Dec',
         ],
+
+        axisBorder: {
+          show: false,
+        },
+
+        axisTicks: {
+          show: false,
+        },
+
         labels: {
           style: {
-            colors: '#555',
+            colors: '#9CA3AF',
             fontSize: '12px',
           },
         },
       },
+
       yaxis: {
+        min: 0,
+
         labels: {
           style: {
-            colors: '#555',
+            colors: '#9CA3AF',
             fontSize: '12px',
           },
         },
       },
+
+      tooltip: {
+        theme: 'light',
+
+        shared: true,
+        intersect: false,
+
+        y: {
+          formatter: (value: number) => `${value} tasks`,
+        },
+      },
+
       legend: {
         position: 'top',
         horizontalAlign: 'right',
-        labels: {
-          colors: '#364153',
+
+        fontSize: '13px',
+
+        markers: {
+          size: 5,
         },
+
+        itemMargin: {
+          horizontal: 10,
+        },
+
+        labels: {
+          colors: '#6B7280',
+        },
+      },
+
+      title: {
+        text: undefined,
       },
     };
   }

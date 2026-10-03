@@ -1,6 +1,17 @@
-<section class="px-12 py-8 w-full">
-  <h2 class="text-3xl font-medium">Dashboard</h2>
-  <div class="grid grid-cols-3 gap-6 pt-10 pb-6">
+<section class="w-full px-12 py-10">
+  <!-- Header -->
+  <div class="mb-6">
+    <h2 class="mt-1 text-4xl font-bold tracking-tight text-gray-900">
+      Dashboard
+    </h2>
+
+    <p class="mt-2 text-gray-500">
+      Keep track of your productivity and task progress.
+    </p>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <app-summary-card
       title="Created Tasks"
       [summary]="summary().created"
@@ -20,25 +31,50 @@
     />
   </div>
 
-  <div class="grid grid-cols-1 gap-6">
-    <div>
+  <!-- Chart -->
+  <div
+    class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden"
+  >
+    <!-- Header -->
+    <div
+      class="flex items-center justify-between px-6 py-5 border-b border-gray-100"
+    >
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900">Task activity</h3>
+
+        <p class="mt-1 text-sm text-gray-500">
+          Track how your tasks have changed over time.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2">
+        <span class="w-2 h-2 rounded-full bg-fun-blue-700"></span>
+
+        <span class="text-xs font-medium text-gray-600"> Tasks </span>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="px-4 pt-5 pb-3">
       @if (loading()) {
-        <div class="flex justify-center items-center h-full">
+        <div class="flex items-center justify-center h-80">
           <app-spinner />
         </div>
       } @else {
-        <div class="bg-gray-100 p-4 rounded-md shadow">
-          <apx-chart
-            [series]="chartOptions.series"
-            [chart]="chartOptions.chart"
-            [xaxis]="chartOptions.xaxis"
-            [stroke]="chartOptions.stroke"
-            [fill]="chartOptions.fill"
-            [colors]="chartOptions.colors"
-            [legend]="chartOptions.legend"
-            [title]="chartOptions.title"
-          ></apx-chart>
-        </div>
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [xaxis]="chartOptions.xaxis"
+          [yaxis]="chartOptions.yaxis"
+          [stroke]="chartOptions.stroke"
+          [fill]="chartOptions.fill"
+          [colors]="chartOptions.colors"
+          [grid]="chartOptions.grid"
+          [dataLabels]="chartOptions.dataLabels"
+          [tooltip]="chartOptions.tooltip"
+          [legend]="chartOptions.legend"
+          [markers]="chartOptions.markers"
+        ></apx-chart>
       }
     </div>
   </div>

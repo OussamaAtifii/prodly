@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { User } from '@models/user.model';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { LoginData } from '../models/login-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class AuthService {
 
   httpClient = inject(HttpClient);
 
-  login(loginData: { email: string; password: string }) {
+  login(loginData: LoginData) {
     const { email } = loginData;
     const { password } = loginData;
 

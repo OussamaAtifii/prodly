@@ -14,6 +14,8 @@ import { Router, RouterLink } from '@angular/router';
 import { PrintErrorComponent } from '@shared/components/print-error/print-error.component';
 import { AuthService } from '../services/auth.service';
 import { SpinnerComponent } from '@shared/components/spinner/spinner.component';
+import { environment } from 'src/environments/environment';
+import { LoginData } from '../models/login-data.model';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +32,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   loading = signal(false);
+  loadingDemo = signal(false);
   error = signal('');
 
   constructor() {}
@@ -63,6 +66,25 @@ export class LoginComponent {
       error: (error) => {
         this.error.set(error.error.message);
         this.loading.set(false);
+      },
+    });
+  }
+
+  loginWithDemo() {
+    this.loadingDemo.set(true);
+
+    const loginData: LoginData = {
+      email: environment.DEMO_USER_EMAIL,
+      password: environment.DEMO_USER_PASSWORD,
+    };
+
+    this.authService.login(loginData).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.error.set(error.error.message);
+        this.loadingDemo.set(false);
       },
     });
   }
