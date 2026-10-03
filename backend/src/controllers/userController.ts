@@ -58,7 +58,7 @@ class UserController {
     try {
       const validatedUser = userRegisterSchema.parse(data);
       const usernameExist = await UserService.getByUsername(
-        validatedUser.username
+        validatedUser.username,
       );
       const emailExist = await UserService.getByEmail(validatedUser.email);
 
@@ -75,9 +75,10 @@ class UserController {
       }
 
       const saltRounds = 10;
+
       const hassedPassword = await bcrypt.hash(
         validatedUser.password,
-        saltRounds
+        saltRounds,
       );
 
       validatedUser.password = hassedPassword;
@@ -87,7 +88,7 @@ class UserController {
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
         JWT_SECRET_KEY,
-        { expiresIn: '1h' }
+        { expiresIn: '1h' },
       );
 
       const { id, username, email, role, avatar } = user;
@@ -115,6 +116,7 @@ class UserController {
   static async login(req: Request, res: Response) {
     const data = req.body;
     const password = req.body.password;
+
     try {
       const validatedUser = userLoginSchema.parse(data);
       const userExist = await UserService.getByEmail(validatedUser.email);
@@ -122,6 +124,8 @@ class UserController {
         userExist === null
           ? false
           : await bcrypt.compare(password, userExist.password);
+
+      console.log({validatedUser, userExist, passwordCorrect});
 
       if (!(userExist && passwordCorrect)) {
         return res
@@ -133,7 +137,7 @@ class UserController {
         JWT_SECRET_KEY,
         {
           expiresIn: '1h',
-        }
+        },
       );
 
       const { id, username, email, role, avatar } = userExist;

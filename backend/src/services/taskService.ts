@@ -121,10 +121,7 @@ class TaskService {
       .select()
       .from(tasksTable)
       .where(
-        and(
-          or(eq(tasksTable.status, 'todo'), eq(tasksTable.status, 'done')),
           eq(tasksTable.userId, userId)
-        )
       );
 
     let createdCount: number[] = Array(12).fill(0);
@@ -134,7 +131,7 @@ class TaskService {
       const date = new Date(task.createdAt);
       const month = date.getMonth();
 
-      if (task.status === 'todo') {
+      if (task.status === 'todo' || task.status === 'process') {
         createdCount[month]++;
       }
 
